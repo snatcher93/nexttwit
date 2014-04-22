@@ -15,7 +15,7 @@ def gravatar_url(email, size=80):
 
 def createServer():    
     app = Flask(__name__)
-    app.config.from_pyfile('resource/minitwit.cfg', silent=True)
+    app.config.from_pyfile('minitwit.cfg', silent=True)
     
     app.jinja_env.filters['datetimeformat'] = format_datetime
     app.jinja_env.filters['gravatar'] = gravatar_url
