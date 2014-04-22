@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<title>{% block title %}Welcome{% endblock %} | MiniTwit</title>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
+	<link rel="apple-touch-icon-precomposed" href="static/ico/apple-touch-icon.png">
+	<meta property="og:image" content="static/ico/thumbnail.png" />
+	
+	<script src="static/js/modernizr.js"></script>
+	<script src="static/js/jquery.js"></script>
+	<script src="static/js/bootstrap.min.js"></script>
+	<script src="static/js/custom.js"></script>
+	<script src="static/js/bootbox.min.js"></script>
+	
+	<link rel="stylesheet" href="static/css/bootstrap.css">
+	<link rel="stylesheet" href="static/css/bootstrap-theme.min.css"> 
+	<link rel="stylesheet" href="static/css/custom.css">
+	<link rel="stylesheet" href="static/css/signin.css">
+</head>
+<body>
+	<div class="container">
+	  {% if error %}<div class="alert alert-danger">{{error}}</div>{% endif %}
+      <form class="form-signin" role="form" action="{{url_for('signin')}}" method="post">
+        <h2 class="form-signin-heading">로그인하세요</h2>
+        <input type="text" name="username" class="form-control" placeholder="사용자 아이디" required autofocus>
+        <input type="password" name="password" class="form-control" placeholder="비밀번호" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+      </form>
+    </div> <!-- /container -->
+  </body>
+</html>

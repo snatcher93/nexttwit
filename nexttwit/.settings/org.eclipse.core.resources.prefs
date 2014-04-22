@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//resource/minitwit.cfg=UTF-8
+encoding//templates/timeline.html=UTF-8
+encoding/database.py=utf-8
+encoding/minitwit.py=utf-8

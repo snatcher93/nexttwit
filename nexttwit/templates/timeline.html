@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block title %} Public Timeline {% endblock %}
+{% block twit %}
+	{% for msg in messages %}
+	<div class="media list-group-item">
+		<a class="pull-left" href="#">
+			<img class="media-object" src="{{ msg.author.email|gravatar(size=48) }}" alt="">
+		</a>
+		<div class="media-body">
+			<a href="{{url_for('user_timeline', username=msg.author.username)}}">
+				<strong class="media-heading">{{msg.author.username}}</strong>
+			</a>
+			<small>{{msg.pubDate|datetimeformat}}</small>
+			<p>{{msg.message}}</p>
+			<p>
+			{% if g.user and msg.authorId != g.user.id %}
+				<a id="{{msg.id}}" class="retwit" href="#"><span class="glyphicon glyphicon-refresh"></span>리트윗</a>
+				<span>&nbsp;</span>
+			{% endif %}				
+			{% if msg.retwit %}
+				<a href="{{url_for('user_timeline', username=msg.origin_author)}}"><strong class="media-heading">{{msg.origin_author}}</strong></a>님으로부터 리트윗한 메시지입니다.
+			{% endif %}			
+			</p>
+		</div>
+	</div>
+	{% endfor %}
+	
+	<form id="retwit_form" method="post">
+		<input type="hidden" name="msgId" id="msgId" />
+	</form>
+	
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('.retwit').click(function() {
+			var msgId= this.id;
+			bootbox.confirm('이 트윗을 리트윗하시겠습니까?', 
+				function(response) {
+					if (!response) return;
+					$("#msgId").val(msgId)
+					$("#retwit_form").attr({'action':'{{url_for("retwit")}}'}).submit();
+				}
+			);
+		});
+	});
+</script>	
+{% endblock %}

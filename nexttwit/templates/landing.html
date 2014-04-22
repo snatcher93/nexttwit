@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
+
+
+<title>Welcome MiniTwit</title>
+
+<link href="static/css/bootstrap.css" rel="stylesheet">
+<link href="static/css/bootstrap-theme.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="{{url_for('public_timeline')}}">MiniTwit</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					{% if not g.user %}
+						<li><a href="/signup">회원가입</a></li>
+						<li><a href="/signin">로그인</a></li>
+					{% else %}
+						<li><a href="/signout">로그아웃</a></li>
+					{% endif %}
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+
+	<div id="header">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<h1>Welcome MiniTwit!!</h1>
+					<h2 class="subtitle">NHN Next 창의체험 과정에 오신 것을 환영합니다</h2>
+				</div>
+				<div class="col-lg-4 col-lg-offset-2">
+					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+							<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+							<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+						</ol>
+						<!-- slides -->
+						<div class="carousel-inner">
+							<div class="item active">
+								<img src="static/img/slide1.png" alt="">
+							</div>
+							<div class="item">
+								<img src="static/img/slide2.png" alt="">
+							</div>
+							<div class="item">
+								<img src="static/img/slide3.png" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-lg-offset-3">
+					<p class="copyright">Copyright &copy; 2014 - NHN Next</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
