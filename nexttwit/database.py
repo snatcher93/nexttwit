@@ -29,4 +29,10 @@ class Dao:
     def __commit__(self):
         dao.commit()
         
-dao = None        
+dao = None  
+
+def initializeDB(dbUrl, dbLogFlag):
+    DBManager.init(dbUrl, dbLogFlag)    
+    DBManager.init_db()
+
+      

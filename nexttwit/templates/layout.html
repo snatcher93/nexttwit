@@ -57,7 +57,7 @@
 		            	</div>		            	
 		            </li>		       
 		            {% else %}   			          
-		            <li><a id="singout" href="{{url_for('signout')}}"><span class="glyphicon glyphicon-off"></span>로그아웃</a></li>
+		            <li><a id="singout" href="{{url_for('logout')}}"><span class="glyphicon glyphicon-off"></span>로그아웃</a></li>
 		            {% endif %}
 		           </ul>
 		        </div><!--/.nav-collapse -->
@@ -175,7 +175,7 @@
 		});
 	{% endif %}
 			
-		$('#twit_form').attr({'method':'post', 'action':'{{url_for("addMessage")}}' });
+		$('#twit_form').attr({'method':'post', 'action':'{{url_for("twit")}}' });
 	});
 </script>	
 </body>

@@ -1,5 +1,13 @@
 eclipse.preferences.version=1
 encoding//resource/minitwit.cfg=UTF-8
+encoding//route/__init__.py=utf-8
+encoding//route/common.py=utf-8
+encoding//route/following.py=utf-8
+encoding//route/home.py=utf-8
+encoding//route/login.py=utf-8
+encoding//route/timeline.py=utf-8
+encoding//route/twit.py=utf-8
 encoding//templates/timeline.html=UTF-8
 encoding/database.py=utf-8
 encoding/minitwit.py=utf-8
+encoding/server.py=utf-8
