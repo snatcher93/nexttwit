@@ -21,7 +21,7 @@
 <body>
 	<div class="container">
 	  {% if error %}<div class="alert alert-danger">{{error}}</div>{% endif %}
-      <form class="form-signin" role="form" action="{{url_for('signin')}}" method="post">
+      <form class="form-signin" role="form" action="{{url_for('login')}}" method="post">
         <h2 class="form-signin-heading">로그인하세요</h2>
         <input type="text" name="username" class="form-control" placeholder="사용자 아이디" required autofocus>
         <input type="password" name="password" class="form-control" placeholder="비밀번호" required>

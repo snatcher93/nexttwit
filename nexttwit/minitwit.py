@@ -43,6 +43,37 @@ def before():
     if 'user_id' in session:
         g.user = userDao.findByName(session['user_id'])
 
+#@app.route('/home')
+#def home():
+#    return render_template("home.html")
+
+# 여기에 원하는 주소를 입력하세요
+@app.route('/') 
+def home():
+    # 여기에 html 페이지 이름을 입력하세요
+    return render_template('')
+
+# 여기에 원하는 주소를 입력하세요
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    if g.user:
+        return redirect(url_for('public_timeline'))
+
+    error = None
+#    if request.method == 'POST':
+#        user = userDao.findByName(request.form.get('username'))
+#        if user is None:
+#            error = u"존재하지 않는 아이디입니다"
+#        elif request.form.get('password') != user.password:
+#            error = u"비밀번호가 올바르지 않습니다"
+#        else:
+#            session['user_id'] = user.username
+#            return redirect(url_for('public_timeline'))
+    
+    # 여기에 html 페이지 이름을 입력하세요
+    return render_template("<<여기에 페이지를 입력하세요>>", error=error)
+
+
 @app.route('/message/add', methods=['POST'])
 def addMessage():
     message = Message(g.user.id, request.form['message'])
@@ -88,10 +119,6 @@ def user_timeline(username):
     follower = followerDao.find(g.user.id, profile_user.id)    
     return render_template("timeline.html", messages=messages, profile_user=profile_user, followed=follower is not None)
 
-@app.route('/home')
-def landing():
-    return render_template("landing.html")
-
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     error = None
@@ -109,27 +136,10 @@ def signup():
         else:
             user = User(request.form.get('username'), request.form.get('email'), request.form.get('password'))
             userDao.save(user)
-            return redirect(url_for('signin'))
+            return redirect(url_for('login'))
 
     return render_template("signup.html", error=error)
 
-@app.route('/signin', methods=['GET', 'POST'])
-def signin():
-    if g.user:
-        return redirect(url_for('public_timeline'))
-
-    error = None
-    if request.method == 'POST':
-        user = userDao.findByName(request.form.get('username'))
-        if user is None:
-            error = u"존재하지 않는 아이디입니다"
-        elif request.form.get('password') != user.password:
-            error = u"비밀번호가 올바르지 않습니다"
-        else:
-            session['user_id'] = user.username
-            return redirect(url_for('public_timeline'))
-    
-    return render_template("signin.html", error=error)
 
 @app.route('/signout')
 def signout():

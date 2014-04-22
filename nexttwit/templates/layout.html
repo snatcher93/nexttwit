@@ -29,7 +29,7 @@
 		  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
 		      <div class="container">
 		        <div class="navbar-header">
-		          <a class="navbar-brand" href="{{url_for('landing')}}">MiniTwit</a>
+		          <a class="navbar-brand" href="{{url_for('home')}}">MiniTwit</a>
 		        </div>
 		        <div class="navbar-collapse collapse">
 		          <ul class="nav navbar-nav">
@@ -41,9 +41,9 @@
 		          	{% if not g.user %}		            
 		          	<li><a id="signup" href="{{url_for('signup')}}"><span class="glyphicon glyphicon-off"></span>회원가입</a></li>
 		          	<li class="dropdown">
-		            	<a id="signin" class="dropdown-toggle" data-toggle="dropdown" href="./"><span class="glyphicon glyphicon-cog"></span>로그인<b class="caret"></b></a>
+		            	<a id=login class="dropdown-toggle" data-toggle="dropdown" href="./"><span class="glyphicon glyphicon-cog"></span>로그인<b class="caret"></b></a>
 		            	<div class="dropdown-menu">
-		            		<form style="margin: 0px" accept-charset="UTF-8" action="{{url_for('signin')}}" method="post">
+		            		<form style="margin: 0px" accept-charset="UTF-8" action="{{url_for('login')}}" method="post">
 		            			<div style="margin:0;padding:0;display:inline">
 			            			<input name="utf8" type="hidden" value="&#x2713;" />
 			            			<input name="authenticity_token" type="hidden" value="4L/A2ZMYkhTD3IiNDMTuB/fhPRvyCNGEsaZocUUpw40=" />
@@ -161,7 +161,7 @@
 		$('#message').attr('disabled', true);
 		$('#twit_btn').attr('disabled', true);
 	{% else %}	
-		$('#signin').hide();
+		$('#login').hide();
 		$('#user_info').text('{{g.user.username}}');
 		$('#user_detail').text('이메일 : {{g.user.email}}');
 		$('#twit_message').click(function(event){
