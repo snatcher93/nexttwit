@@ -48,31 +48,33 @@ def before():
 #    return render_template("home.html")
 
 # 여기에 원하는 주소를 입력하세요
-@app.route('/') 
+@app.route('/home') 
 def home():
     # 여기에 html 페이지 이름을 입력하세요
-    return render_template('')
+    return render_template('home.html')
 
 # 여기에 원하는 주소를 입력하세요
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if g.user:
         return redirect(url_for('public_timeline'))
-
     error = None
-#    if request.method == 'POST':
-#        user = userDao.findByName(request.form.get('username'))
-#        if user is None:
-#            error = u"존재하지 않는 아이디입니다"
-#        elif request.form.get('password') != user.password:
-#            error = u"비밀번호가 올바르지 않습니다"
-#        else:
-#            session['user_id'] = user.username
-#            return redirect(url_for('public_timeline'))
+    # 여기에 로그인 체크 로직을 넣으세요
     
     # 여기에 html 페이지 이름을 입력하세요
-    return render_template("<<여기에 페이지를 입력하세요>>", error=error)
+    return render_template('', error=error)
 
+def login_code():
+    if request.method == 'POST':
+        user = userDao.findByName(request.form['userid'])
+        if user is None:
+            error = u"존재하지 않는 아이디입니다"
+        elif request.form['password'] != user.password:
+            error = u"비밀번호가 올바르지 않습니다"
+        else:
+            session['user_id'] = user.userid
+            return redirect(url_for('public_timeline'))
+    
 
 @app.route('/message/add', methods=['POST'])
 def addMessage():
@@ -107,12 +109,12 @@ def public_timeline():
     messages = messageDao.findAll()
     return render_template("timeline.html", messages=messages)
 
-@app.route('/<username>')
-def user_timeline(username):
+@app.route('/<userid>')
+def user_timeline(userid):
     if not g.user:
         return redirect(url_for('public_timeline'))
     
-    profile_user = userDao.findByName(username)
+    profile_user = userDao.findByName(userid)
     if profile_user is None:
         abort(404)
     messages = messageDao.findByAuthor(profile_user)    
@@ -123,7 +125,7 @@ def user_timeline(username):
 def signup():
     error = None
     if request.method == 'POST':
-        if not request.form.get('username'):
+        if not request.form.get('userid'):
             error = u"아이디를 입력해주세요"
         elif not request.form.get('email') or '@' not in request.form.get('email'):
             error = u'올바른 이메일 주소를 입려해주세요'
@@ -131,10 +133,10 @@ def signup():
             error = u'비밀번호를 입력해주세요'
         elif request.form.get('password') != request.form.get('repassword'):
             error = u'입력하신 두 비밀번호가 동일하지 않습니다'
-        elif userDao.findByName(request.form.get('username')):
+        elif userDao.findByName(request.form.get('userid')):
             error = u'사용자가 이미 존재합니다'
         else:
-            user = User(request.form.get('username'), request.form.get('email'), request.form.get('password'))
+            user = User(request.form.get('userid'), request.form.get('email'), request.form.get('password'))
             userDao.save(user)
             return redirect(url_for('login'))
 
@@ -146,26 +148,25 @@ def signout():
     session.pop('user_id', None)
     return redirect(url_for('landing'))
 
-@app.route('/<username>/follow', methods=['POST'])
-def follow_user(username):
+@app.route('/<userid>/follow', methods=['POST'])
+def follow_user(userid):
     if not g.user:
         abort(401)
     
-    whom = userDao.findByName(username)
+    whom = userDao.findByName(userid)
     follower = Follower(g.user.id, whom.id)
     followerDao.save(follower)
-    return redirect(url_for('user_timeline', username=username))
+    return redirect(url_for('user_timeline', userid=userid))
 
-@app.route('/<username>/unfollow', methods=['POST'])
-def unfollow_user(username):
+@app.route('/<userid>/unfollow', methods=['POST'])
+def unfollow_user(userid):
     if not g.user:
         abort(401)
     
-    whom = userDao.findByName(username)
+    whom = userDao.findByName(userid)
     follower = followerDao.find(g.user.id, whom.id)
     followerDao.delete(follower)
-    return redirect(url_for('user_timeline', username=username))
+    return redirect(url_for('user_timeline', userid=userid))
     
 if __name__ == "__main__":
-    #init_db()
     app.run(debug=True)

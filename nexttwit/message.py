@@ -22,9 +22,9 @@ class Message(Base):
         self.message = message 
 
         if origin is not None:
-            print "################# " + origin.author.username
+            print "################# " + origin.author.userid
             self.retwit = True
-            self.origin_author = origin.author.username
+            self.origin_author = origin.author.userid
         else:
             self.retwit = False
             

@@ -7,8 +7,8 @@
 			<img class="media-object" src="{{ msg.author.email|gravatar(size=48) }}" alt="">
 		</a>
 		<div class="media-body">
-			<a href="{{url_for('user_timeline', username=msg.author.username)}}">
-				<strong class="media-heading">{{msg.author.username}}</strong>
+			<a href="{{url_for('user_timeline', userid=msg.author.userid)}}">
+				<strong class="media-heading">{{msg.author.userid}}</strong>
 			</a>
 			<small>{{msg.pubDate|datetimeformat}}</small>
 			<p>{{msg.message}}</p>
@@ -18,7 +18,7 @@
 				<span>&nbsp;</span>
 			{% endif %}				
 			{% if msg.retwit %}
-				<a href="{{url_for('user_timeline', username=msg.origin_author)}}"><strong class="media-heading">{{msg.origin_author}}</strong></a>님으로부터 리트윗한 메시지입니다.
+				<a href="{{url_for('user_timeline', userid=msg.origin_author)}}"><strong class="media-heading">{{msg.origin_author}}</strong></a>님으로부터 리트윗한 메시지입니다.
 			{% endif %}			
 			</p>
 		</div>
