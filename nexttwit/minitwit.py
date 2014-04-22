@@ -43,10 +43,6 @@ def before():
     if 'user_id' in session:
         g.user = userDao.findByName(session['user_id'])
 
-#@app.route('/home')
-#def home():
-#    return render_template("home.html")
-
 # 여기에 원하는 주소를 입력하세요
 @app.route('/home') 
 def home():
