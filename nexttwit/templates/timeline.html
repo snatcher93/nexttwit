@@ -60,15 +60,6 @@
 	
 <script type="text/javascript">
 $(document).ready(function() {
-	$('#twit_form').submit(function() {
-		if ($('#message').is(':empty')) {
-			bootbox.alert('메시지를 작성한 후 트윗 버튼을 누르세요.');
-			$('#message').focus();
-			return false;
-		}
-		return true;
-	});
-	
 	{% if not g.user %}
 		$('#user_info').text('손님이십니다');
 		$('#user_detail').text('로그인해 주세요');

@@ -8,7 +8,7 @@ from server import app
 def twit():
     message = Message(g.user.id, request.form['message'])
     messageDao.save(message)
-    return render_template(url_for('public_timeline'))
+    return redirect(url_for('public_timeline'))
 
 @app.route('/retwit', methods=['POST'])
 def retwit():
