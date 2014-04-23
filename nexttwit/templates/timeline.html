@@ -9,24 +9,18 @@
 	
 	<script src="{{url_for('static', filename='js/modernizr.js')}}"></script>
 	<script src="{{url_for('static', filename='js/jquery.js')}}"></script>
-	<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+	<script src="{{url_for('static', filename='js/bootstrap.js')}}"></script>
 	<script src="{{url_for('static', filename='js/custom.js')}}"></script>
 	<script src="{{url_for('static', filename='js/bootbox.min.js')}}"></script>
 	
-	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.css')}}">
-	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-theme.min.css')}}"> 
-	<link rel="stylesheet" href="{{url_for('static', filename='css/custom.css')}}">
-	<style>
-		.list-group-item:hover { background-color:#F0F4F8; }
-		.list-group-item { cursor: pointer; cursor: hand; }
-		body { background-image: url('static/img/yotsuba.jpg'); }
-		#user_detail {padding: 10px;}
-	</style>
+	<!-- 여기에 css 경로를 입력하세요 -->
+	<link rel="stylesheet" href="static/css/bootstrap-theme.css">	<!-- static/css/bootstrap-theme.css -->
+	<link rel="stylesheet" href="static/css/bootstrap.css">			<!-- static/css/bootstrap.css -->
+	<link rel="stylesheet" href="static/css/timeline.css">			<!-- static/css/timeline.css -->
 </head>
 <body>
 	<div id="master-wrap">
-		{% include 'header.html' %}
-			    
+		{% include 'header.html' %}    
 		<div class="main-content">
 			<div class="container">
 				<div class="row">
@@ -45,7 +39,7 @@
 			            	</div>
 						</div>
 						<div>
-							<form id="twit_form" class="form-horizontal">
+							<form id="twit_form" action="/twit" method="post" class="form-horizontal">
 								<textarea id="message" name="message" rows="4" class="form-control" placeholder="트윗 메시지"></textarea>
 		        				<button id="twit_btn" class="btn btn-small btn-primary" type="submit">트윗</button>
 							</form>
@@ -65,29 +59,16 @@
 	</form>
 	
 <script type="text/javascript">
-	$(document).ready(function() {			
-	{% if request.endpoint == 'user_timeline' %}
-		$('#follow').click(function() {
-			bootbox.confirm('사용자를 팔로우하시겠습니까?', 
-				function(response) {
-					if (!response) return;
-					$('#follow_form')
-						.attr({'method':'post', 'action':'{{url_for("follow_user", userid=profile_user.userid)}}'})
-						.submit();
-			});
-		});
-				
-		$('#unfollow').click(function() {
-			bootbox.confirm('사용자를 팔로우하지 않겠습니까?', 
-				function(response) {
-					if (!response) return;
-					$('#follow_form')
-						.attr({'method':'post', 'action':'{{url_for("unfollow_user", userid=profile_user.userid)}}'})
-						.submit();
-			});
-		});				
-	{% endif %}
-		
+$(document).ready(function() {
+	$('#twit_form').submit(function() {
+		if ($('#message').is(':empty')) {
+			bootbox.alert('메시지를 작성한 후 트윗 버튼을 누르세요.');
+			$('#message').focus();
+			return false;
+		}
+		return true;
+	});
+	
 	{% if not g.user %}
 		$('#user_info').text('손님이십니다');
 		$('#user_detail').text('로그인해 주세요');
@@ -110,9 +91,7 @@
 			});
 		});
 	{% endif %}
-			
-		$('#twit_form').attr({'method':'post', 'action':'{{url_for("twit")}}' });
-	});
+});
 </script>	
 </body>
 </html>

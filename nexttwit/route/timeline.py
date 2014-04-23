@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from flask import render_template, redirect, g, request, session, url_for
+from flask import render_template, redirect, g, request, session, url_for, abort
 from messagedao import messageDao
 from followerdao import followerDao
 from userdao import userDao
@@ -30,3 +30,4 @@ def user_timeline(userid):
     messages = messageDao.findByAuthor(profile_user)    
     follower = followerDao.find(g.user.id, profile_user.id)    
     return render_template("timeline.html", messages=messages, profile_user=profile_user, followed=follower is not None)
+    

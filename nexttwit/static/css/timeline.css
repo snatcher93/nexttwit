@@ -1,0 +1,4 @@
+.list-group-item:hover { background-color:#F0F4F8; }
+.list-group-item { cursor: pointer; cursor: hand; }
+body { background-image: url('/static/img/yotsuba.jpg'); }
+#user_detail {padding: 10px;}
