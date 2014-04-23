@@ -1,46 +1,118 @@
-{% extends "layout.html" %}
-{% block title %} Public Timeline {% endblock %}
-{% block twit %}
-	{% for msg in messages %}
-	<div class="media list-group-item">
-		<a class="pull-left" href="#">
-			<img class="media-object" src="{{ msg.author.email|gravatar(size=48) }}" alt="">
-		</a>
-		<div class="media-body">
-			<a href="{{url_for('user_timeline', userid=msg.author.userid)}}">
-				<strong class="media-heading">{{msg.author.userid}}</strong>
-			</a>
-			<small>{{msg.pubDate|datetimeformat}}</small>
-			<p>{{msg.message}}</p>
-			<p>
-			{% if g.user and msg.authorId != g.user.id %}
-				<a id="{{msg.id}}" class="retwit" href="#"><span class="glyphicon glyphicon-refresh"></span>리트윗</a>
-				<span>&nbsp;</span>
-			{% endif %}				
-			{% if msg.retwit %}
-				<a href="{{url_for('user_timeline', userid=msg.origin_author)}}"><strong class="media-heading">{{msg.origin_author}}</strong></a>님으로부터 리트윗한 메시지입니다.
-			{% endif %}			
-			</p>
-		</div>
-	</div>
-	{% endfor %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NextTwit</title>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="{{url_for('static', filename='ico/favicon.ico')}}" />
+	<link rel="apple-touch-icon-precomposed" href="{{url_for('static', filename='ico/apple-touch-icon.png')}}" />
+	<meta property="og:image" content="{{url_for('static', filename='ico/thumbnail.png')}}" />
 	
-	<form id="retwit_form" method="post">
-		<input type="hidden" name="msgId" id="msgId" />
+	<script src="{{url_for('static', filename='js/modernizr.js')}}"></script>
+	<script src="{{url_for('static', filename='js/jquery.js')}}"></script>
+	<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+	<script src="{{url_for('static', filename='js/custom.js')}}"></script>
+	<script src="{{url_for('static', filename='js/bootbox.min.js')}}"></script>
+	
+	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-theme.min.css')}}"> 
+	<link rel="stylesheet" href="{{url_for('static', filename='css/custom.css')}}">
+	<style>
+		.list-group-item:hover { background-color:#F0F4F8; }
+		.list-group-item { cursor: pointer; cursor: hand; }
+		body { background-image: url('static/img/yotsuba.jpg'); }
+		#user_detail {padding: 10px;}
+	</style>
+</head>
+<body>
+	<div id="master-wrap">
+		{% include 'header.html' %}
+			    
+		<div class="main-content">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<h3 id="user_info" class="panel-title"></h3>
+							</div>
+			            	<div class="panel-body">
+			            		{% if g.user %}
+			            		<a class="pull-left" href="#">
+									<img class="media-object" src="{{ g.user.email|gravatar(size=48) }}" alt="">
+								</a>
+								{% endif %}
+								<span id="user_detail" ></span>
+			            	</div>
+						</div>
+						<div>
+							<form id="twit_form" class="form-horizontal">
+								<textarea id="message" name="message" rows="4" class="form-control" placeholder="트윗 메시지"></textarea>
+		        				<button id="twit_btn" class="btn btn-small btn-primary" type="submit">트윗</button>
+							</form>
+						</div>
+					</div>
+				    <div class="col-sm-8">
+						<div class="list-group">
+							{% include 'twits.html' %}							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!-- /.main-content -->	
+	</div>
+	
+	<form id="follow_form">
 	</form>
 	
-	<script type="text/javascript">
-	$(document).ready(function() {
-		$('.retwit').click(function() {
-			var msgId= this.id;
-			bootbox.confirm('이 트윗을 리트윗하시겠습니까?', 
+<script type="text/javascript">
+	$(document).ready(function() {			
+	{% if request.endpoint == 'user_timeline' %}
+		$('#follow').click(function() {
+			bootbox.confirm('사용자를 팔로우하시겠습니까?', 
 				function(response) {
 					if (!response) return;
-					$("#msgId").val(msgId)
-					$("#retwit_form").attr({'action':'{{url_for("retwit")}}'}).submit();
-				}
-			);
+					$('#follow_form')
+						.attr({'method':'post', 'action':'{{url_for("follow_user", userid=profile_user.userid)}}'})
+						.submit();
+			});
 		});
+				
+		$('#unfollow').click(function() {
+			bootbox.confirm('사용자를 팔로우하지 않겠습니까?', 
+				function(response) {
+					if (!response) return;
+					$('#follow_form')
+						.attr({'method':'post', 'action':'{{url_for("unfollow_user", userid=profile_user.userid)}}'})
+						.submit();
+			});
+		});				
+	{% endif %}
+		
+	{% if not g.user %}
+		$('#user_info').text('손님이십니다');
+		$('#user_detail').text('로그인해 주세요');
+		$('#twit_message').click(function() {
+			return false;
+		});
+		$('#message').attr('disabled', true);
+		$('#twit_btn').attr('disabled', true);
+	{% else %}	
+		$('#login').hide();
+		$('#user_info').text('{{g.user.userid}}');
+		$('#user_detail').text('이메일 : {{g.user.email}}');
+		$('#twit_message').click(function(event){
+			bootbox.prompt('트윗할 메시지를 작성하세요', 
+				function(data) {
+					if (data != null) {
+						$('#message').val(data);
+						$('#twit_form').submit();
+					}
+			});
+		});
+	{% endif %}
+			
+		$('#twit_form').attr({'method':'post', 'action':'{{url_for("twit")}}' });
 	});
 </script>	
-{% endblock %}
+</body>
+</html>

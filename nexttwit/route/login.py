@@ -5,24 +5,16 @@ from server import app
 from user import User
 
 # 여기에 원하는 주소를 입력하세요
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     if g.user:
         return redirect(url_for('public_timeline'))
+    
     error = None
     # 여기에 로그인 체크 로직을 넣으세요
-    if request.method == 'POST':
-        user = userDao.findByName(request.form['userid'])
-        if user is None:
-            error = u"존재하지 않는 아이디입니다"
-        elif request.form['password'] != user.password:
-            error = u"비밀번호가 올바르지 않습니다"
-        else:
-            session['user_id'] = user.userid
-            return redirect(url_for('public_timeline'))
 
     # 여기에 html 페이지 이름을 입력하세요
-    return render_template('login.html', error=error)
+    return render_template('', error=error)
 
 def login_code():
     if request.method == 'POST':
@@ -35,6 +27,8 @@ def login_code():
             session['user_id'] = user.userid
             return redirect(url_for('public_timeline'))
     
+    
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     error = None
@@ -55,6 +49,8 @@ def signup():
             return redirect(url_for('login'))
 
     return render_template("signup.html", error=error)
+
+
 
 @app.route('/logout')
 def logout():

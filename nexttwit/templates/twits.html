@@ -1,0 +1,67 @@
+	<div class="list-group-item active">
+	{% if request.endpoint == 'user_timeline' %}
+		{{profile_user.userid}}의 트윗
+	{% elif request.endpoint == 'public_timeline' %}
+		전체 트윗
+	{% elif request.endpoint == 'my_timeline' %}
+		나와 친구들의 트윗							
+	{% endif %} 
+	</div>
+	{% if g.user %}
+		{% if request.endpoint == 'user_timeline' %}
+			<div class="alert alert-warning">
+			{% if g.user.userid == profile_user.userid %}
+				당신의 타임라인입니다.
+			{% elif followed %}
+				'{{profile_user.userid}}'님을 팔로우하고 있습니다. 
+				<button id="unfollow" class="btn btn-small btn-primary">팔로우 해제</button>
+			{% else %}
+				'{{profile_user.userid}}'님을 아직 팔로우하고 있지 않습니다. 
+				<button id="follow" class="btn btn-small btn-primary">팔로우</button>									
+			{% endif %}										
+			</div>							
+		{% endif %}
+	{% endif %}
+
+	{% for msg in messages %}
+	<div class="media list-group-item">
+		<a class="pull-left" href="#">
+			<img class="media-object" src="{{ msg.author.email|gravatar(size=48) }}" alt="">
+		</a>
+		<div class="media-body">
+			<a href="{{url_for('user_timeline', userid=msg.author.userid)}}">
+				<strong class="media-heading">{{msg.author.userid}}</strong>
+			</a>
+			<small>{{msg.pubDate|datetimeformat}}</small>
+			<p>{{msg.message}}</p>
+			<p>
+			{% if g.user and msg.authorId != g.user.id %}
+				<a id="{{msg.id}}" class="retwit" href="#"><span class="glyphicon glyphicon-refresh"></span>리트윗</a>
+				<span>&nbsp;</span>
+			{% endif %}				
+			{% if msg.retwit %}
+				<a href="{{url_for('user_timeline', userid=msg.origin_author)}}"><strong class="media-heading">{{msg.origin_author}}</strong></a>님으로부터 리트윗한 메시지입니다.
+			{% endif %}			
+			</p>
+		</div>
+	</div>
+	{% endfor %}
+	
+	<form id="retwit_form" method="post">
+		<input type="hidden" name="msgId" id="msgId" />
+	</form>
+	
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('.retwit').click(function() {
+			var msgId= this.id;
+			bootbox.confirm('이 트윗을 리트윗하시겠습니까?', 
+				function(response) {
+					if (!response) return;
+					$("#msgId").val(msgId)
+					$("#retwit_form").attr({'action':'{{url_for("retwit")}}'}).submit();
+				}
+			);
+		});
+	});
+</script>	

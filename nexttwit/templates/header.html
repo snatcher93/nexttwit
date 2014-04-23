@@ -1,0 +1,39 @@
+		<header class="navbar">
+		  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+		      <div class="container">
+		        <div class="navbar-header">
+		          <a class="navbar-brand" href="{{url_for('home')}}">MiniTwit</a>
+		        </div>
+		        <div class="navbar-collapse collapse">
+		          <ul class="nav navbar-nav">
+		            <li><a id="twit_menu" href="{{url_for('public_timeline')}}"><span class="glyphicon glyphicon-home"></span>Public Timeline</a></li>
+		            <li><a id="my_timeline" href="{{url_for('my_timeline')}}"><span class="glyphicon glyphicon-user"></span>My Timeline</a></li>		            
+		          </ul>
+		          <ul class="nav navbar-nav navbar-right">
+		          	<li><a id="twit_message" href="#"><span class="glyphicon glyphicon-edit"></span>트윗</a></li>
+		          	{% if not g.user %}		            
+		          	<li><a id="signup" href="{{url_for('signup')}}"><span class="glyphicon glyphicon-off"></span>회원가입</a></li>
+		          	<li class="dropdown">
+		            	<a id=login class="dropdown-toggle" data-toggle="dropdown" href="./"><span class="glyphicon glyphicon-cog"></span>로그인<b class="caret"></b></a>
+		            	<div class="dropdown-menu">
+		            		<form style="margin: 0px" accept-charset="UTF-8" action="{{url_for('login')}}" method="post">
+		            			<div style="margin:0;padding:0;display:inline">
+			            			<input name="utf8" type="hidden" value="&#x2713;" />
+			            			<input name="authenticity_token" type="hidden" value="4L/A2ZMYkhTD3IiNDMTuB/fhPRvyCNGEsaZocUUpw40=" />
+		            			</div>
+		            			<fieldset class='textbox' style="padding:10px">
+			            			<input style="margin-top: 8px" type="text" name="userid" placeholder="사용자 아이디" />
+			            			<input style="margin-top: 8px" type="password" name="password" placeholder="비밀번호" />
+			            			<input class="btn-primary" name="commit" type="submit" value="Log In" />
+		            			</fieldset>
+		            		</form>
+		            	</div>		            	
+		            </li>		       
+		            {% else %}   			          
+		            <li><a id="singout" href="{{url_for('logout')}}"><span class="glyphicon glyphicon-off"></span>로그아웃</a></li>
+		            {% endif %}
+		           </ul>
+		        </div><!--/.nav-collapse -->
+		      </div>
+		    </div>
+		</header>

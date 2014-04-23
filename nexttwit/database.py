@@ -23,6 +23,7 @@ class DBManager:
     def init_db():
         from user import User
         from message import Message
+        from follower import Follower
         Base.metadata.create_all(bind=DBManager.__engine)
 
 class Dao:
