@@ -4,11 +4,15 @@ from messagedao import messageDao
 from message import Message
 from server import app
 
-@app.route('/twit', methods=['POST'])
+# 여기에 원하는 주소를 입력하세요
+@app.route('/', methods=['POST'])
 def twit():
-    message = Message(g.user.id, request.form['message'])
-    messageDao.save(message)
-    return redirect(url_for('public_timeline'))
+    message = Message(g.user, '#여기에 메시지 정보를 넣으세요')
+    
+    # 여기에 메시지를 기록하기 위한 코드를 넣으세요
+
+    # 여기에 html 페이지 이름을 입력하세요
+    return render_template('', messages = messages, timeline="public")
 
 @app.route('/retwit', methods=['POST'])
 def retwit():
@@ -19,6 +23,6 @@ def retwit():
     if not message:
         abort(400)
         
-    retwit = Message(g.user.id, message.message, message)
+    retwit = Message(g.user, message.message, message)
     messageDao.save(retwit)    
     return redirect(url_for('public_timeline'))
