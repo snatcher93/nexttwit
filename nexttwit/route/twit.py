@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 from flask import render_template, redirect, g, request, session, url_for
-from messagedao import messageDao, database
+from messagedao import messageDao
+from dbgateway import database
 from message import Message
 from server import app
 

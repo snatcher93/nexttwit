@@ -8,5 +8,5 @@ from server import app
 def before():
     g.user = None
     if 'user_id' in session:
-        g.user = userDao.findByName(session['user_id'])
+        g.user = userDao.findByUserId(session['user_id'])
 

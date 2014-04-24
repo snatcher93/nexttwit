@@ -24,7 +24,7 @@ def user_timeline(userid):
     if not g.user:
         return redirect(url_for('public_timeline'))
     
-    profile_user = userDao.findByName(userid)
+    profile_user = userDao.findByUserId(userid)
     if profile_user is None:
         abort(404)
     messages = messageDao.findByAuthor(profile_user)    

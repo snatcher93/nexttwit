@@ -4,23 +4,29 @@ from follower import Follower
 from userdao import userDao
 from followerdao import followerDao
 from server import app
+from dbgateway import database 
 
-@app.route('/<userid>/follow', methods=['POST'])
-def follow_user(userid):
+# 여기에 원하는 주소를 입력하세요
+@app.route('/follow', methods=['POST'])
+def follow_user():
     if not g.user:
         abort(401)
     
-    whom = userDao.findByName(userid)
-    follower = Follower(g.user.id, whom.id)
-    followerDao.save(follower)
-    return redirect(url_for('user_timeline', userid=userid))
+    # userid를 이용해 사용자 정보를 읽어 오도록 수정하세요
+    whom = database.findUser(request.form['userid'])
+    follower = Follower(g.user, whom)
+    
+    # database.saveFollower()를 이용해 follower를 저장하세요
+    database.saveFollower(follower)
+    
+    return redirect(url_for('user_timeline', userid=request.form['userid']))
 
-@app.route('/<userid>/unfollow', methods=['POST'])
-def unfollow_user(userid):
+@app.route('/unfollow', methods=['POST'])
+def unfollow_user():
     if not g.user:
         abort(401)
-    
-    whom = userDao.findByName(userid)
+        
+    whom = database.findUser(request.form['userid'])
     follower = followerDao.find(g.user.id, whom.id)
     followerDao.delete(follower)
-    return redirect(url_for('user_timeline', userid=userid))
+    return redirect(url_for('user_timeline', userid=request.form['userid']))

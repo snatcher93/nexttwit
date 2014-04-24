@@ -29,12 +29,4 @@ class MessageDao(Dao):
                     .order_by(Message.pubDate.desc()) \
                     .all()
 
-class MessageDatabase:
-    def insertMessage(self, message):
-        messageDao.save(message)
-        
-    def findMessages(self):
-        return messageDao.findAll()
-
 messageDao = MessageDao()        
-database = MessageDatabase()

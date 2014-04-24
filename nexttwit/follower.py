@@ -13,9 +13,9 @@ class Follower(Base):
     who = relationship("User", foreign_keys=[who_id])
     whom = relationship("User", foreign_keys=[whom_id])
     
-    def __init__(self, who_id, whom_id):
-        self.who_id = who_id;
-        self.whom_id = whom_id;
+    def __init__(self, who, whom):
+        self.who_id = who.id;
+        self.whom_id = whom.id;
         
     def __repr__(self):
         return '<Follower %r %r>' % (self.who_id, self.whom_id)

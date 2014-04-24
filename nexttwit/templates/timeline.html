@@ -55,7 +55,12 @@
 		</div><!-- /.main-content -->	
 	</div>
 	
-	<form id="follow_form">
+	<form id="follow_form" action="/follow" method="post">
+		<input type="hidden" id="follower_id" name="userid" /> 
+	</form>
+	
+	<form id="unfollow_form" action="/unfollow" method="post">
+		<input type="hidden" id="unfollower_id" name="userid" /> 
 	</form>
 	
 <script type="text/javascript">

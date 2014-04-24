@@ -11,7 +11,7 @@ class UserDao(Dao):
                 filter_by(id=id). \
                 first()
 
-    def findByName(self, userid):
+    def findByUserId(self, userid):
         return dao.query(User). \
                 filter_by(userid=userid). \
                 first()
