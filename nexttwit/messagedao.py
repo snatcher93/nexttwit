@@ -21,11 +21,6 @@ class MessageDao(Dao):
                     .order_by(Message.pubDate.desc())   \
                     .all()
 
-#    def findByAuthors(self, user_ids):
-#        return dao.query(Message) \
-#                    .filter(Message.authorId.in_(user_ids))  \
-#                    .all()
-
     def findByAuthors(self, followings):
         following_ids = [each.whom_id for each in followings]
         following_ids.append(g.user.id)
@@ -34,4 +29,12 @@ class MessageDao(Dao):
                     .order_by(Message.pubDate.desc()) \
                     .all()
 
-messageDao = MessageDao()
+class MessageDatabase:
+    def insertMessage(self, message):
+        messageDao.save(message)
+        
+    def findMessages(self):
+        return messageDao.findAll()
+
+messageDao = MessageDao()        
+database = MessageDatabase()
