@@ -1,7 +1,7 @@
 	<div class="list-group-item active">
 	{% if request.endpoint == 'user_timeline' %}
 		{{profile_user.userid}}의 트윗
-	{% elif request.endpoint == 'public_timeline' %}
+	{% elif timeline == 'public' or request.endpoint == 'public_timeline' %}
 		전체 트윗
 	{% elif request.endpoint == 'my_timeline' %}
 		나와 친구들의 트윗							
