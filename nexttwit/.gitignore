@@ -5,3 +5,5 @@
 /database.pyc
 /follower.pyc
 /userdao.pyc
+/minitwit.pyc
+/server.pyc

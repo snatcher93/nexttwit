@@ -16,13 +16,13 @@ class Message(Base):
      
     author = relationship("User")
     
-    def __init__(self, authorId, message, origin=None):
-        self.authorId = authorId
+    def __init__(self, author, message, origin=None):
+        self.authorId = author.id
+        self.author = author
         self.pubDate = int(time.time())
         self.message = message 
 
         if origin is not None:
-            print "################# " + origin.author.userid
             self.retwit = True
             self.origin_author = origin.author.userid
         else:

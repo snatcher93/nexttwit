@@ -1,18 +1,21 @@
 # -*- encoding: utf-8 -*-
 from flask import render_template, redirect, g, request, session, url_for
-from messagedao import messageDao
+from messagedao import messageDao, database
 from message import Message
 from server import app
 
 # 여기에 원하는 주소를 입력하세요
-@app.route('/', methods=['POST'])
+@app.route('/twit', methods=['POST'])
 def twit():
-    message = Message(g.user, '#여기에 메시지 정보를 넣으세요')
+    message = Message(g.user, request.form['message'])
     
     # 여기에 메시지를 기록하기 위한 코드를 넣으세요
-
+    database.insertMessage(message)
+    
+    messageBox = database.findMessages()
+    
     # 여기에 html 페이지 이름을 입력하세요
-    return render_template('', messages = messages, timeline="public")
+    return render_template('timeline.html', messages = messageBox, timeline="public")
 
 @app.route('/retwit', methods=['POST'])
 def retwit():
