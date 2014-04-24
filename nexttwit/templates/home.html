@@ -29,10 +29,10 @@
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
 					{% if not g.user %}
-						<li><a href="{{url_for('signup')}}">회원가입</a></li>
-						<li><a href="{{url_for('login')}}">로그인</a></li>
+						<li><a href="/signup">회원가입</a></li>
+						<li><a href="<<여기에 로그인 페이지로 가는 링크를 추가하세요>>">로그인</a></li>
 					{% else %}
-						<li><a href="{{url_for('logout')}}">로그아웃</a></li>
+						<li><a href="/logout">로그아웃</a></li>
 					{% endif %}
 				</ul>
 			</div>

@@ -4,10 +4,17 @@ from userdao import userDao
 from server import app
 from user import User
 
-@app.route('/login', methods=['GET', 'POST'])
+# 여기에 원하는 주소를 입력하세요
+@app.route('/')
 def login():
     if g.user:
         return redirect(url_for('public_timeline'))
+        
+    # 여기에 html 페이지 이름을 입력하세요
+    return render_template('', error=error)
+
+@app.route('/login', methods=['POST'])
+def doLogin():
     error = None
 
     if request.method == 'POST':
@@ -19,7 +26,7 @@ def login():
         else:
             session['user_id'] = user.userid
             return redirect(url_for('public_timeline'))
-
+        
     return render_template('login.html', error=error)
 
 @app.route('/signup', methods=['GET', 'POST'])
