@@ -11,7 +11,7 @@ def login():
         return redirect(url_for('public_timeline'))
         
     # 여기에 html 페이지 이름을 입력하세요
-    return render_template('', error=error)
+    return render_template('', error=None)
 
 @app.route('/login', methods=['POST'])
 def doLogin():
